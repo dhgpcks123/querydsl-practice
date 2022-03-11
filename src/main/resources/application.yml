@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/IdeaProjects/querydsl
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+
+# p6spy default
+decorator:
+  datasource:
+    p6spy:
+      #      운영시 false
+      enable-logging: true
+#      tracing.include-parameter-values: true
+#      multiline: false
+#      logging: slf4j
+
+
+#logging.level:
+#  org.hibernate.SQL: debug
+# 운영단계에서는 sql debug 필요할 경우 p6spy -> logging.level찍으셈
+#  org.hibernate.type: trace
+# trace 찍으면 2022-03-11 16:41:42.789 TRACE 5413 --- [    Test worker] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [BIGINT] - [1]
+# 파라미터 값 무엇인지 알려줌. (사실 꾸졌지 뭐;)
