@@ -15,7 +15,6 @@ import javax.persistence.PersistenceContext;
 
 @SpringBootTest
 @Transactional
-@Commit
 class QuerydslApplicationTests {
 
 //    @Autowired
