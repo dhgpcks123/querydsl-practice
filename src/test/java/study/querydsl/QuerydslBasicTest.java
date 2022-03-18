@@ -3,6 +3,8 @@ package study.querydsl;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -527,4 +529,82 @@ public class QuerydslBasicTest {
     // 화면에서 최대한 캐시처리 해놨을꺼야..
     // sql 안티패턴스 : 개발자가 알아야 할 25가지 SQL 함정과 해법
     // 정말 복잡한 한방 쿼리 쪼개서 호출하면.. 몇 백줄 몇백 줄 줄여서 오히려 좋은 쿼리가 될 수 있다.
+
+
+    /**
+     * @author: hyechan
+     * @since: 2022/03/18 9:14 오후
+     * @description
+     */
+    @Test
+    public void basicCase() throws Exception{
+        List<String> result = queryFactory
+                .select(member.age
+                        .when(10).then("열살")
+                        .when(20).then("스무살")
+                        .otherwise("기타"))
+                .from(member)
+                .fetch();
+
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+
+    /**
+     * @author: hyechan
+     * @since: 2022/03/18 9:16 오후
+     * @description
+     */
+    @Test
+    public void complexCase() throws Exception{
+        List<String> result = queryFactory
+                .select(new CaseBuilder()
+                        .when(member.age.between(0, 20)).then("0~20")
+                        .when(member.age.between(21, 30)).then("21~30")
+                        .otherwise("기타"))
+                .from(member)
+                .fetch();
+        for (String s : result) {
+            System.out.println("s = " + s);
+        }
+        //웬만하면 db 데이터 날 것으로 가져와서 애플리케이션/화면에서 전환하는 게 좋아.
+    }
+    
+    /**
+     * @author: hyechan
+     * @since: 2022/03/18 9:19 오후
+     * @description 
+     */
+    @Test
+    public void 상수_문자_더하기() throws Exception{
+        List<Tuple> result = queryFactory
+                .select(member.username, Expressions.constant("A"))
+                .from(member)
+                .fetch();
+
+        for (Tuple s : result) {
+            System.out.println("s = " + s);
+        }
+    }
+    /**
+     * @author: hyechan
+     * @since: 2022/03/18 9:20 오후
+     * @description
+     */
+    @Test
+    public void 문자더하기() throws Exception{
+        //username_age, age는 타입이 문자가 아니다,
+//        queryFactory
+//                .select(member.username.concat("_").concat(member.age))
+
+        List<String> fetch = queryFactory
+                .select(member.username.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .where(member.username.eq("member1"))
+                .fetch();
+        for (String s : fetch) {
+            System.out.println("s = " + s);
+        }
+    }
 }
