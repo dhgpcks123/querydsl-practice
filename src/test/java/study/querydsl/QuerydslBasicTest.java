@@ -29,7 +29,6 @@ import java.util.List;
 
 import static com.querydsl.jpa.JPAExpressions.*;
 import static org.assertj.core.api.Assertions.*;
-import static study.querydsl.entity.QMember.*;
 import static study.querydsl.entity.QMember.member;
 import static study.querydsl.entity.QTeam.team;
 
@@ -590,7 +589,7 @@ public class QuerydslBasicTest {
     /**
      * @author: hyechan
      * @since: 2022/03/18 9:20 오후
-     * @description
+     * @description: Enum처리할 때 많이 사용합니다.
      */
     @Test
     public void 문자더하기() throws Exception{
