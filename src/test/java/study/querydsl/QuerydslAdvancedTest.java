@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.QMemberDto;
 import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
@@ -111,6 +112,8 @@ public class QuerydslAdvancedTest {
         //dto로 바로 꺼내오는 거 배울거야. 대부분 이렇게 꺼내고 쓰게되겠지
     }
 
+// ---------------------------  PROJECTIONS --------------------
+
     /**
      * @author: hyechan
      * @since: 2022/03/18 9:36 오후
@@ -153,6 +156,7 @@ public class QuerydslAdvancedTest {
                 .select(Projections.constructor(MemberDto.class,
                         member.username,
                         member.age
+//                        member.id
                 ))
                 .from(member)
                 .fetch();
@@ -185,6 +189,22 @@ public class QuerydslAdvancedTest {
 
         for (UserDto s : fetch) {
             System.out.println("s = " + s);
+        }
+    }
+
+    /**
+     * @author: hyechan
+     * @since: 2022/03/23 3:45 오후
+     * @description
+     */
+    @Test
+    public void findDtoByQueryProjection() throws Exception{
+        List<MemberDto> result = queryFactory
+                .select(new QMemberDto(member.username, member.age))
+                .from(member)
+                .fetch();
+        for (MemberDto memberDto : result) {
+            System.out.println("memberDto = " + memberDto);
         }
     }
 }

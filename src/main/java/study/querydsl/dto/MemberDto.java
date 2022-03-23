@@ -1,6 +1,6 @@
 package study.querydsl.dto;
 
-import lombok.*;
+import com.querydsl.core.annotations.QueryProjection;
 
 /**
  * fileName    : MemberDto
@@ -21,6 +21,7 @@ public class MemberDto {
     public MemberDto(){
     }
 
+    @QueryProjection
     public MemberDto(String username, int age){
         this.username = username;
         this.age = age;
