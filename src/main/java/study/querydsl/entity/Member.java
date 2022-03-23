@@ -12,7 +12,7 @@ public class Member {
 
     @Id @GeneratedValue
     @Column(name = "member_id")
-    private Long Id;
+    private Long id;
     private String username;
     private int age;
 
